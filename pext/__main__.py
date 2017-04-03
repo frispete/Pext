@@ -494,7 +494,9 @@ class ModuleManager():
                        'install']
 
         # FIXME: Cheap hack to work around Debian's faultily-patched pip
-        if os.path.isfile('/usr/bin/aptitude'):
+        # FIXME: Even cheaper hack to avoid false positives on openSUSE
+        #        where aptitude is bridged to zypper(!)
+        if os.path.isfile('/usr/bin/aptitude') and not os.path.isfile('/usr/bin/zypper'):
             pip_command += ['--system']
 
         pip_command += ['--upgrade',
